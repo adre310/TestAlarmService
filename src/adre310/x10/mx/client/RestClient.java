@@ -33,8 +33,9 @@ public class RestClient {
 	public static String AGENT_NAME=null;
 	
 	public static final String BASE_URL=
-			//"https://money2013.net" 
-			"https://172.26.10.23:9443/Money2013/web/app_dev.php"
+			"https://money2013.net" 
+			//"https://172.26.10.23:9443/Money2013/web/app_dev.php"
+			//"https://192.168.0.104/Money2013/web/app_dev.php"
 			;
 	
 	public RestClient(Context context) {
