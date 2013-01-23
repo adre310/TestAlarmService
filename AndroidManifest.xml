@@ -29,8 +29,8 @@
 		</receiver>
 
 		<service android:enabled="true" android:name="WorkService" />
+        <service android:enabled="true" android:name="SyncService" />
 		<provider android:name="MyDBProvider" android:authorities="com.example.sms.timer.spy"></provider>
-		<service android:name="SyncService"></service>
 	</application>
 
 </manifest>

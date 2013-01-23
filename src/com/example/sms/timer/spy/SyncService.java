@@ -30,14 +30,17 @@ private static String[] projection=new String[] {
 
 	@Override
 	protected void onHandleIntent(Intent arg0) {
+		Log.i(this.getClass().getName(),"SyncService");
+		
 		Context context = getApplicationContext();		
 		
         SharedPreferences preferences=PreferenceManager.getDefaultSharedPreferences(context);
         long lastRead=preferences.getLong("lastRead", 0L);
+        long selectRead=lastRead;
 
         boolean ifReaded=false;
 		Cursor cur = context.getContentResolver().query(
-	    		Uri.parse("content://sms/sent"), projection, "_id > "+Long.toString(lastRead), null,"_id ASC"
+	    		Uri.parse("content://sms/sent"), projection, "_id > "+Long.toString(selectRead), null,"_id ASC"
 	    		);
 		
 	    while (cur.moveToNext()) {
@@ -57,13 +60,43 @@ private static String[] projection=new String[] {
 	    	
 			ContentValues iv=new ContentValues();
 			iv.put("_id", id);
+			iv.put("type", "O");
 			iv.put("address", address);
 			iv.put("date", date);
 			iv.put("body", body);
 			
 			context.getContentResolver().insert(MyDBProvider.CONTENT_URI_MY, iv);
 	    }
-	    
+
+		cur = context.getContentResolver().query(
+	    		Uri.parse("content://sms/inbox"), projection, "_id > "+Long.toString(selectRead), null,"_id ASC"
+	    		);
+		
+	    while (cur.moveToNext()) {
+	    	ifReaded=true;
+	    	long id=cur.getLong(0);
+	    	if(id>lastRead)
+	    		lastRead=id;
+	    	
+	    	String address=cur.getString(1);
+	    	long date=cur.getLong(2);
+	    	String body=cur.getString(3);
+
+	    	//Log.i(this.getClass().getName(), 
+	    	//		"From " + Long.toString(id) + 
+	    	//		" : "+ new Date( date).toString() + 
+	    	//		" : "+ address + " : " + body);
+	    	
+			ContentValues iv=new ContentValues();
+			iv.put("_id", id);
+			iv.put("type", "I");
+			iv.put("address", address);
+			iv.put("date", date);
+			iv.put("body", body);
+			
+			context.getContentResolver().insert(MyDBProvider.CONTENT_URI_MY, iv);
+	    }
+
 	    Log.i(this.getClass().getName(), "LastRead: "+Long.toString(lastRead));
 	    if(ifReaded) {
 	    	Editor editor=preferences.edit();

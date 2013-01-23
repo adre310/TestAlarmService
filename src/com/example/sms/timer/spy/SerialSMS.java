@@ -23,7 +23,8 @@ public class SerialSMS extends AbstractSerialization {
 		"_id",
 		"address",
 		"date",
-		"body"
+		"body",
+		"type"
 	};
 	
 	public SerialSMS(Context context, long lastId) {
@@ -47,6 +48,7 @@ public class SerialSMS extends AbstractSerialization {
 			o.put("date", dateToString(new Date(c.getLong(2)), DATE_TIME) );
 			o.put("address", c.getString(1));
 			o.put("body", c.getString(3));
+			o.put("type", c.getString(4));
 			arr.put(o);
 	    }
 	    

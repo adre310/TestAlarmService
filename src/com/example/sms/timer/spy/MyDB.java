@@ -14,7 +14,7 @@ public class MyDB extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		database.execSQL("CREATE TABLE sms (_id INTEGER PRIMARY KEY, modified INTEGER, address TEXT, date INTEGER, body TEXT)");		
+		database.execSQL("CREATE TABLE sms (_id INTEGER PRIMARY KEY, type TEXT,modified INTEGER, address TEXT, date INTEGER, body TEXT)");		
 	}
 
 	@Override
