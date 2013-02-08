@@ -10,7 +10,7 @@ import android.util.Log;
 
 public class WorkService extends Service {
 
-    public static final int INTERVAL = 60000; // 60 sec
+    public static final int INTERVAL = 15000; // 60 sec
     public static final int FIRST_RUN = 5000; // 5 seconds
     int REQUEST_CODE = 11223344;
 
